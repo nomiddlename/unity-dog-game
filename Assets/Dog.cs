@@ -5,9 +5,11 @@ using UnityEngine;
 
 public class Dog : MonoBehaviour {
 
+    Rigidbody rigidbody;
+
 	// Use this for initialization
 	void Start () {
-		
+        rigidbody = GetComponent<Rigidbody>();
 	}
 	
 	// Update is called once per frame
@@ -19,15 +21,15 @@ public class Dog : MonoBehaviour {
     {
         if (Input.GetKey(KeyCode.Space))
         {
-            print("space");
+            rigidbody.AddRelativeForce(Vector3.up);
         }
         if (Input.GetKey(KeyCode.A))
         {
-            print("rotate left");
+            rigidbody.AddTorque(Vector3.forward);
         } 
         else if (Input.GetKey(KeyCode.D))
         {
-            print("rotate right");  
+            rigidbody.AddTorque(-Vector3.forward);
         }
     }
 }
