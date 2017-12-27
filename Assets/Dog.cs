@@ -7,7 +7,6 @@ public class Dog : MonoBehaviour {
 
     Rigidbody rigidbody;
     AudioSource audioSource;
-    bool farting = false;
 
 	// Use this for initialization
 	void Start () {
@@ -17,35 +16,39 @@ public class Dog : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        ProcessInput();
-        CheckSounds();
+        Thrust();
+        Rotate();
 	}
 
-    private void CheckSounds() {
-        if (farting && !audioSource.isPlaying) {
-            audioSource.Play();
-        } else if (!farting) {
-            audioSource.Stop();
+    private void Rotate()
+    {
+        //rigidbody.freezeRotation = true;
+
+        if (Input.GetKey(KeyCode.A))
+        {
+            transform.Rotate(Vector3.forward);
         }
+        else if (Input.GetKey(KeyCode.D))
+        {
+            transform.Rotate(-Vector3.forward);
+        }
+
+        //rigidbody.freezeRotation = false;
     }
 
-    private void ProcessInput()
+    private void Thrust()
     {
         if (Input.GetKey(KeyCode.Space))
         {
             rigidbody.AddRelativeForce(Vector3.up);
-            farting = true;
-        } else
-        {
-            farting = false;
+            if (!audioSource.isPlaying)
+            {
+                audioSource.Play();
+            }
         }
-        if (Input.GetKey(KeyCode.A))
+        else
         {
-            transform.Rotate(Vector3.forward);
-        } 
-        else if (Input.GetKey(KeyCode.D))
-        {
-            transform.Rotate(-Vector3.forward);
+            audioSource.Stop();
         }
     }
 }
