@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Dog : MonoBehaviour {
 
@@ -11,6 +12,9 @@ public class Dog : MonoBehaviour {
     Rigidbody rigidbody;
     AudioSource audioSource;
 
+    enum State { Alive, Dead, Transitioning };
+    State state = State.Alive;
+
 	// Use this for initialization
 	void Start () {
         rigidbody = GetComponent<Rigidbody>();
@@ -19,21 +23,40 @@ public class Dog : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        Thrust();
-        Rotate();
+        if (state == State.Alive) 
+        {
+            Thrust();
+            Rotate();
+        }
 	}
 
     private void OnCollisionEnter(Collision collision)
     {
+        if (state != State.Alive) { return; }
+
         switch (collision.gameObject.tag) 
         {
             case "Friendly":
-                Debug.Log("OK");
+                break;
+            case "Finish":
+                state = State.Transitioning;
+                Invoke("LoadNextScene", 1f);
                 break;
             default:
-                Debug.Log("Dead!");
+                state = State.Dead;
+                Invoke("BackToStart", 1f);
                 break;
         }
+    }
+
+    private void LoadNextScene() 
+    {
+        SceneManager.LoadScene(1);    
+    }
+
+    private void BackToStart()
+    {
+        SceneManager.LoadScene(0);
     }
 
     private void Rotate()
