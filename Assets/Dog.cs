@@ -11,6 +11,9 @@ public class Dog : MonoBehaviour {
     [SerializeField] AudioClip thrustNoise;
     [SerializeField] AudioClip bumpNoise;
     [SerializeField] AudioClip endLevelNoise;
+    [SerializeField] ParticleSystem farts;
+    [SerializeField] ParticleSystem bump;
+    [SerializeField] ParticleSystem goodBoy;
 
     Rigidbody rigidbody;
     AudioSource audioSource;
@@ -54,6 +57,8 @@ public class Dog : MonoBehaviour {
     {
         state = State.Dead;
         PlaySound(bumpNoise);
+        farts.Stop();
+        bump.Play();
         Invoke("BackToStart", 1f);
     }
 
@@ -61,6 +66,8 @@ public class Dog : MonoBehaviour {
     {
         state = State.Transitioning;
         PlaySound(endLevelNoise);
+        farts.Stop();
+        goodBoy.Play();
         Invoke("LoadNextScene", 1f);
     }
 
@@ -106,10 +113,12 @@ public class Dog : MonoBehaviour {
             {
                 audioSource.PlayOneShot(thrustNoise);
             }
+            farts.Play();
         }
         else
         {
             audioSource.Stop();
+            farts.Stop();
         }
     }
 }
