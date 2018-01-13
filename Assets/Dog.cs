@@ -8,6 +8,9 @@ public class Dog : MonoBehaviour {
 
     [SerializeField] float thrust = 500f;
     [SerializeField] float rcsThrust = 300f;
+    [SerializeField] AudioClip thrustNoise;
+    [SerializeField] AudioClip bumpNoise;
+    [SerializeField] AudioClip endLevelNoise;
 
     Rigidbody rigidbody;
     AudioSource audioSource;
@@ -39,14 +42,32 @@ public class Dog : MonoBehaviour {
             case "Friendly":
                 break;
             case "Finish":
-                state = State.Transitioning;
-                Invoke("LoadNextScene", 1f);
+                StartSuccessSequence();
                 break;
             default:
-                state = State.Dead;
-                Invoke("BackToStart", 1f);
+                StartDeathSequence();
                 break;
         }
+    }
+
+    private void StartDeathSequence()
+    {
+        state = State.Dead;
+        PlaySound(bumpNoise);
+        Invoke("BackToStart", 1f);
+    }
+
+    private void StartSuccessSequence()
+    {
+        state = State.Transitioning;
+        PlaySound(endLevelNoise);
+        Invoke("LoadNextScene", 1f);
+    }
+
+    private void PlaySound(AudioClip sound)
+    {
+        audioSource.Stop();
+        audioSource.PlayOneShot(sound);
     }
 
     private void LoadNextScene() 
@@ -83,7 +104,7 @@ public class Dog : MonoBehaviour {
             rigidbody.AddRelativeForce(Vector3.up * thrust * Time.deltaTime);
             if (!audioSource.isPlaying)
             {
-                audioSource.Play();
+                audioSource.PlayOneShot(thrustNoise);
             }
         }
         else
