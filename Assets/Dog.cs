@@ -8,6 +8,9 @@ public class Dog : MonoBehaviour {
 
     [SerializeField] float thrust = 500f;
     [SerializeField] float rcsThrust = 300f;
+    [SerializeField] float levelLoadDelay = 2f;
+    [SerializeField] int nextLevel = 0;
+    [SerializeField] int thisLevel = 0;
     [SerializeField] AudioClip thrustNoise;
     [SerializeField] AudioClip bumpNoise;
     [SerializeField] AudioClip endLevelNoise;
@@ -59,7 +62,7 @@ public class Dog : MonoBehaviour {
         PlaySound(bumpNoise);
         farts.Stop();
         bump.Play();
-        Invoke("BackToStart", 1f);
+        Invoke("BackToStart", levelLoadDelay);
     }
 
     private void StartSuccessSequence()
@@ -68,7 +71,7 @@ public class Dog : MonoBehaviour {
         PlaySound(endLevelNoise);
         farts.Stop();
         goodBoy.Play();
-        Invoke("LoadNextScene", 1f);
+        Invoke("LoadNextScene", levelLoadDelay);
     }
 
     private void PlaySound(AudioClip sound)
@@ -79,12 +82,12 @@ public class Dog : MonoBehaviour {
 
     private void LoadNextScene() 
     {
-        SceneManager.LoadScene(1);    
+        SceneManager.LoadScene(nextLevel);    
     }
 
     private void BackToStart()
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(thisLevel);
     }
 
     private void Rotate()
