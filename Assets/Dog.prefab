@@ -316,7 +316,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1753527398749168}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -21.32, y: 1.59, z: 0}
+  m_LocalPosition: {x: -21.32, y: 1.61, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4615402893167376}
@@ -487,7 +487,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1459577046426168}
   m_LocalRotation: {x: -0, y: -0.71071446, z: -0, w: 0.7034806}
-  m_LocalPosition: {x: 0.33183098, y: -1.05, z: 0.41006774}
+  m_LocalPosition: {x: -0.26, y: -1.43, z: 0.41006774}
   m_LocalScale: {x: 0.30978835, y: 0.074121356, z: 1}
   m_Children: []
   m_Father: {fileID: 4069767741330210}
@@ -1167,6 +1167,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thrust: 600
   rcsThrust: 150
+  levelLoadDelay: 2
+  nextLevel: 1
+  thisLevel: 0
   thrustNoise: {fileID: 8300000, guid: de916a295d51949e9861af9c1fc28db0, type: 3}
   bumpNoise: {fileID: 8300000, guid: d41435cd4d4f34f46bb40385e4b4b260, type: 3}
   endLevelNoise: {fileID: 8300000, guid: 49cc343a4b6034a42a84b66dfcf63237, type: 3}
@@ -4692,14 +4695,14 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
-  randomSeed: 358756750
+  randomSeed: -27741341
   InitialModule:
     serializedVersion: 3
     enabled: 1
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 2
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -4740,7 +4743,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 5
+      scalar: 3
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -4781,8 +4784,8 @@ ParticleSystem:
     startColor:
       serializedVersion: 2
       minMaxState: 2
-      minColor: {r: 0.11580882, g: 0.9264706, b: 0.15494429, a: 1}
-      maxColor: {r: 0.24694549, g: 0.3897059, b: 0.1490052, a: 1}
+      minColor: {r: 0.012705441, g: 0.3455882, b: 0.028775671, a: 1}
+      maxColor: {r: 0.42306787, g: 1.007353, b: 0.022221042, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 0.048782248, g: 0.25735295, b: 0.009461499, a: 1}
@@ -4844,7 +4847,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.3
+      scalar: 0.7
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -5594,8 +5597,8 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 0.02141004, g: 0.2647059, b: 0.06335761, a: 1}
-        key1: {r: 0.7604403, g: 0.9558824, b: 0.07028548, a: 0.5803922}
+        key0: {r: 0.7490196, g: 0.86274517, b: 0.34901962, a: 1}
+        key1: {r: 0.017101202, g: 0.19117647, b: 0.0028114214, a: 0.5803922}
         key2: {r: 0, g: 0, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
@@ -5874,7 +5877,7 @@ ParticleSystem:
     speedModifier:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.6
+      scalar: 0.5
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -6345,7 +6348,7 @@ ParticleSystem:
     strengthY:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 0
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -6386,7 +6389,7 @@ ParticleSystem:
     strengthZ:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0
+      scalar: 2
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -6424,7 +6427,7 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    separateAxes: 0
+    separateAxes: 1
     frequency: 0.5
     damping: 1
     octaves: 1
@@ -6434,7 +6437,7 @@ ParticleSystem:
     scrollSpeed:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0
+      scalar: 1
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -7213,7 +7216,7 @@ ParticleSystem:
   LightsModule:
     enabled: 0
     ratio: 0
-    light: {fileID: 0}
+    light: {fileID: 108394556960570330, guid: 31fa07d82cb444513bb2d191381fed77, type: 2}
     randomDistribution: 1
     color: 1
     range: 1

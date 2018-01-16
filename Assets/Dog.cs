@@ -4,13 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Dog : MonoBehaviour {
+public class Dog : MonoBehaviour
+{
 
     [SerializeField] float thrust = 500f;
     [SerializeField] float rcsThrust = 300f;
     [SerializeField] float levelLoadDelay = 2f;
-    [SerializeField] int nextLevel = 0;
-    [SerializeField] int thisLevel = 0;
     [SerializeField] AudioClip thrustNoise;
     [SerializeField] AudioClip bumpNoise;
     [SerializeField] AudioClip endLevelNoise;
@@ -23,27 +22,38 @@ public class Dog : MonoBehaviour {
 
     enum State { Alive, Dead, Transitioning };
     State state = State.Alive;
+    bool collisionsDisabled = false;
+    int currentSceneIndex;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start()
+    {
+        currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         rigidbody = GetComponent<Rigidbody>();
         audioSource = GetComponent<AudioSource>();
-	}
-	
-	// Update is called once per frame
-	void Update () {
-        if (state == State.Alive) 
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (state == State.Alive)
         {
             Thrust();
             Rotate();
         }
-	}
+
+        if (Debug.isDebugBuild)
+        {
+            CheckForDebugKeys();
+        }
+    }
 
     private void OnCollisionEnter(Collision collision)
     {
         if (state != State.Alive) { return; }
+        if (collisionsDisabled) { return; }
 
-        switch (collision.gameObject.tag) 
+        switch (collision.gameObject.tag)
         {
             case "Friendly":
                 break;
@@ -80,14 +90,14 @@ public class Dog : MonoBehaviour {
         audioSource.PlayOneShot(sound);
     }
 
-    private void LoadNextScene() 
+    private void LoadNextScene()
     {
-        SceneManager.LoadScene(nextLevel);    
+        SceneManager.LoadScene((currentSceneIndex + 1) % SceneManager.sceneCountInBuildSettings);
     }
 
     private void BackToStart()
     {
-        SceneManager.LoadScene(thisLevel);
+        SceneManager.LoadScene(currentSceneIndex);
     }
 
     private void Rotate()
@@ -123,5 +133,24 @@ public class Dog : MonoBehaviour {
             audioSource.Stop();
             farts.Stop();
         }
+    }
+
+    private void CheckForDebugKeys()
+    {
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            LoadNextScene();
+        }
+
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            ToggleCollisions();
+        }
+    }
+
+    private void ToggleCollisions()
+    {
+        collisionsDisabled = !collisionsDisabled;
+        Debug.Log("Collisions are now " + collisionsDisabled);
     }
 }
